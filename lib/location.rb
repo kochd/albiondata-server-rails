@@ -79,7 +79,7 @@ module Location
   }
 
   # This is to be used with HellDens, WATCHOUT it converts Black Market to Caerleon Market!
-  CITY_TO_MARKET = {
+  HELLDEN_TO_MARKET = {
   "0000" => '0007', # Thetford to Thetford Market
   "1000" => '1002', # Lymhurst to Lymhurst Market
   "2000" => '2004', # Bridgewatch to Bridgewatch Market
@@ -113,16 +113,15 @@ module Location
     id = location.dup
 
     case
-      when id.include?('-Auction2')
+      when id.end_with?('-Auction2')
         id.gsub!('-Auction2', '')
-      when id.include?('-HellDen')
-        id.gsub!('-HellDen', '')
-        id = CITY_TO_MARKET[id]
+      when id.end_with?('-HellDen')
+        id = HELLDEN_TO_MARKET[id]
         return nil unless id
       when id.include?('@')
         id = id.split('@', 2).last
         id.gsub!('BLACKBANK-', '') if id.include?('BLACKBANK-')
-      when id.include?('BLACKBANK-')
+      when id.start_with?('BLACKBANK-')
         id.gsub!('BLACKBANK-', '')
     end
 
